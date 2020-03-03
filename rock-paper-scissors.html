@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page Title</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <script>
+            function playRound(playerSelection, computerSelection) {
+                p = playerSelection.toLowerCase()
+                c = computerSelection.toLowerCase()
+                console.log(`Player chooses ${p}; Computer chooses ${c}`)
+
+                if (p == c) { return 'draw' }
+                switch(p) {
+                    case 'rock':
+                        return (c == 'scissors' ?  'win' : 'loss')
+                        break;
+                    case 'paper':
+                        return (c == 'rock' ? 'win' : 'loss')
+                        break;
+                    case 'scissors':
+                        return (c == 'paper' ? 'win' : 'loss')
+                        break;
+                    default:
+                        return 'invalid'
+                }
+
+            }
+
+            function computerPlay() {
+                arr = ['rock','paper','scissors']
+                num = ( Math.floor( Math.random() * arr.length ) )
+                return arr[num]
+            }
+            
+            function playGame() {
+                score = { 'wins':0, 'losses':0 }
+
+                while (score['wins'] + score['losses'] < 5) {
+                    console.log(score['wins'] + score['losses'])
+                    
+                    const playerSelection = prompt(
+                        `Current score: ${score['wins']} to ${score['losses']}\nSelect Rock, Paper, or Scissors:`
+                    )
+                    
+                    result = playRound( playerSelection,computerPlay() )
+
+                    if (result == 'win') {
+                        score['wins'] += 1
+                    } else if (result == 'loss') {
+                        score['losses'] += 1
+                    }
+                }
+            }
+
+            
+        </script>
+    </body>
+</html>
