@@ -1,5 +1,5 @@
-function initGame() {
-    scores = {'player': 0, 'computer':0}
+function initGame(scores) {
+    updateScore(scores)
 
     buttons = document.querySelectorAll('button')
     buttons.forEach( (button) => {
@@ -27,6 +27,7 @@ function playRound(playerSelection, computerSelection, scores) {
 
     updateScore(scores)
     updateMessage(p,c,scores)
+    hideOptions(scores)
 }
 function computerPlay() {
     arr = ['rock','paper','scissors']
@@ -40,24 +41,49 @@ function updateScore(scores) {
         elId = el.getAttribute('id')
         document.querySelector(`#${elId}`).textContent = scores[elId]
     })
-
-    if (scores['player'] >= 5) {
-
-    }
 }
-function updateMessage(p, c, s) {
+function updateMessage(p="", c="", s="") {
     m = document.querySelector('h3')
-    m.textContent = `Player selects ${p} / Computer selects ${c}`
-
-    if (s['player'] >= 5) {
-        mWinner = document.createElement('div')
-        mWinner.textContent = 'Player Wins!'
-        m.appendChild(mWinner)
-    } else if (s['computer'] >= 5) {
-        mWinner = document.createElement('div')
-        mWinner.textContent ='Computer Wins >=D'
-        m.appendChild(mWinner)
+    if (p==s && c==s) {
+        m.textContent = 'Starting new game...'
+    } else {
+        m.textContent = `Player selects ${p} / Computer selects ${c}`
+    
+        if (s['player'] >= 5) {
+            mWinner = document.createElement('div')
+            mWinner.textContent = 'Player Wins!'
+            m.appendChild(mWinner)
+        } else if (s['computer'] >= 5) {
+            mWinner = document.createElement('div')
+            mWinner.textContent ='Computer Wins >=D'
+            m.appendChild(mWinner)
+        }
     }
 }
 
-initGame()
+function hideOptions(scores) {
+    btns = document.querySelectorAll('button')
+    if ( scores['player']>=5 || scores['computer']>=5) {
+        btns.forEach( (btn)=>{
+            btn.classList.toggle('invisible')
+        })
+    }
+}
+
+function resetGame(){
+    resetBtn = document.querySelector('#reset')
+    resetBtn.addEventListener('click', () => {
+        btns = document.querySelectorAll('button')
+        btns.forEach((btn)=>{
+            btn.classList.toggle('invisible')
+        })
+        
+        resetScore = {'player': 0, 'computer':0}
+        initGame(resetScore)
+        updateMessage()
+    })
+}
+
+newScore = {'player': 0, 'computer':0}
+initGame(newScore)
+resetGame()
